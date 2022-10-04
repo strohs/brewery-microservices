@@ -9,11 +9,11 @@ env:
 on:
   push:
     paths:
-      - "beer-service/**"
+      - "${{env.MODULE_NAME}}/**"
     branches: [ "master" ]
   pull_request:
     paths:
-      - "beer-service/**"
+      - "${{env.MODULE_NAME}}/**"
     branches: [ "master" ]
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-      working-directory: $MODULE_NAME
+      working-directory: ${{env.MODULE_NAME}}
 
     - name: Login to Docker Hub
       uses: docker/login-action@v2
@@ -47,7 +47,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-        context: ./$MODULE_NAME
-        file: ./$MODULE_NAME/src/main/docker/Dockerfile
+        context: ./${{env.MODULE_NAME}}
+        file: ./${{env.MODULE_NAME}}/src/main/docker/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/$MODULE_NAME:latest
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{env.MODULE_NAME}}:latest
