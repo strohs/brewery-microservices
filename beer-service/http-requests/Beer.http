@@ -1,0 +1,73 @@
+### GET A List of Beers
+GET http://localhost:8080/api/v1/beer
+Accept: application/json
+
+
+### Get A Beer By Id
+GET http://localhost:8080/api/v1/beer/{{beer1Id}}
+Accept: application/json
+
+
+### Get A Beer By Id and show inventory
+GET http://localhost:8080/api/v1/beer/{{beer1Id}}?showInventoryOnHand=true
+Accept: application/json
+
+
+### Get Beer by upc
+GET http://localhost:8080/api/v1/beerUpc/{{upc1}}
+Accept: application/json
+
+### Update Beer Data
+PUT http://localhost:8080/api/v1/beer/{{beer1Id}}
+Content-Type: application/json
+
+{
+  "beerName": "Stinky Pete",
+  "beerStyle": "ALE",
+  "price": "211.34",
+  "upc": "2222222"
+}
+
+### Inventory Failover
+GET http://localhost:8083/inventory-failover
+Accept: application/json
+
+
+### API GATEWAY Get A Beer By Id and show inventory
+GET http://localhost:9090/api/v1/beer/{{beer1Id}}/inventory
+Accept: application/json
+
+### API GATEWAY Get a list of beers from beer service
+GET http://localhost:9090/api/v1/beer
+Accept: application/json
+
+### API GATEWAY Update Beer Data
+PUT http://localhost:9090/api/v1/beer/{{beer1Id}}
+Content-Type: application/json
+
+{
+  "beerName": "Stinky Pete",
+  "beerStyle": "LAGER",
+  "price": "19.95",
+  "upc": "2222222"
+}
+
+
+### CONFIG SERVER local profile properties
+GET http://localhost:8888/order-service/local-secure
+Accept: application/json
+Authorization: Basic {{config-username}} {{config-password}}
+
+
+### Spring Cloud Config ENCRYPT example  beer=810ee97961b40503642f8f48611178c74a0d0f629857bb132f54adcf1e314d1e
+POST http://localhost:8888/encrypt
+Content-Type: text/plain
+
+beer
+
+
+### Spring Cloud Config DECRYPT example
+POST http://localhost:8888/decrypt
+Content-Type: text/plain
+
+810ee97961b40503642f8f48611178c74a0d0f629857bb132f54adcf1e314d1e

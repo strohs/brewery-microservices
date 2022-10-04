@@ -1,0 +1,212 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.2
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - brewery
+    environment:
+      discovery_type: single-node
+      ELASTIC_PASSWORD: password
+
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.4.2
+    ports:
+      - "5601:5601"
+    networks:
+      - brewery
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.4.2
+    networks:
+      - brewery
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro # Configuration file
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro           # Docker logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro                       # Additional information about containers
+    user: root # Allow access to log files and docker.sock
+    command:
+      - 'setup -E setup.kibana.host=kibana:5601 -E output.elasticsearch.hosts=["elasticsearch:9200"]'
+      - '-e'
+      - '--strict.perms=false'
+      - '-E output.elasticsearch.hosts=["elasticsearch:9200"]'
+    restart: on-failure
+
+  mysqldb:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    networks:
+      - brewery
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+
+  artemis:
+    image: strohs/artemis-temurin11:2.24.0
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    networks:
+      - brewery
+    environment:
+      - ARTEMIS_USER=artemis
+      - ARTEMIS_PASSWORD=artemis
+      - ANONYMOUS_LOGIN=false
+      - EXTRA_ARGS=--http-host 0.0.0.0 --relax-jolokia
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - brewery
+
+  eureka:
+    image: strohs/brewery-eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - brewery
+    environment:
+      SPRING_ZIPKIN_BASEURL: http://zipkin
+    restart: on-failure
+
+  config:
+    image: strohs/brewery-config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - brewery
+    depends_on:
+      - eureka
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+    restart: on-failure
+
+  inventory-service:
+    image: strohs/beer-inventory-service
+    ports:
+      - "8082:8082"
+    networks:
+      - brewery
+    depends_on:
+      - eureka
+      - config
+      - artemis
+      - zipkin
+      - mysqldb
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
+    #  Next 3 props are sources from cloud config server
+    #      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+    #      SPRING.ARTEMIS.BROKER_URL: "tcp://artemis:61616"
+    #      SPRING_DATASOURCE_URL: "jdbc:mysql://mysqldb:3306/beerinventoryservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
+    restart: on-failure
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+  inventory-failover-service:
+    image: strohs/beer-inventory-failover-service
+    ports:
+      - "8083:8083"
+    networks:
+      - brewery
+    depends_on:
+      - eureka
+      - config
+      - artemis
+      - zipkin
+      - mysqldb
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      SPRING_ZIPKIN_ENABLED: true
+    restart: on-failure
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+  beer-service:
+    image: strohs/beer-service
+    ports:
+      - "8080:8080"
+    networks:
+      - brewery
+    depends_on:
+      - eureka
+      - config
+      - artemis
+      - zipkin
+      - mysqldb
+      - inventory-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
+    restart: on-failure
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+  order-service:
+    image: strohs/beer-order-service
+    ports:
+      - "8081:8081"
+    networks:
+      - brewery
+    depends_on:
+      - eureka
+      - config
+      - artemis
+      - zipkin
+      - mysqldb
+      - inventory-service
+      - beer-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
+      ORG_CJS_BEER_SERVICE_HOST: "http://beer-service:8080"
+    restart: on-failure
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+  brewery-gateway:
+    image: strohs/brewery-gateway
+    ports:
+      - "9090:9090"
+    networks:
+      - brewery
+    depends_on:
+      - eureka
+      - zipkin
+      - config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_PROFILES_ACTIVE: local-discovery, local-docker
+    restart: on-failure
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+networks:
+  brewery:

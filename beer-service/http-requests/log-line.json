@@ -1,0 +1,15 @@
+{
+  "@timestamp": "2022-09-26T19:52:39.675Z",
+  "@version": "1",
+  "level": "DEBUG",
+  "message": "BeerId: d1e15c7e-d621-41a2-880c-fc1993963200 On hand is: 119",
+  "logger_name": "org.cjs.beerservice.service.inventory.BeerInventoryServiceFeign",
+  "thread_name": "scheduling-1",
+  "springAppName": "beer-service",
+  "severity": "DEBUG",
+  "service": "beer-service",
+  "pid": "313372",
+  "thread": "scheduling-1",
+  "class": "o.c.b.s.i.BeerInventoryServiceFeign",
+  "rest": "BeerId: d1e15c7e-d621-41a2-880c-fc1993963200 On hand is: 119"
+}

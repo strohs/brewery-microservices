@@ -1,0 +1,12 @@
+# example of configuring routes using yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: google
+          uri: https://google.com
+          predicates:
+            - Path=/googlesearch/**
+          filters:
+            # (?<name>X) 	X, as a named-capturing group
+            - RewritePath=/googlesearch/?(?<segment>.*), /$\{segment}
