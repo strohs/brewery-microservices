@@ -48,6 +48,6 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: ./${{env.MODULE_NAME}}
-        file: ./${{env.MODULE_NAME}}/src/main/docker/Dockerfile
+        file: ./${{env.MODULE_NAME}}/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{env.MODULE_NAME}}:latest
