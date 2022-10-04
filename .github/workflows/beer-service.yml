@@ -9,11 +9,11 @@ env:
 on:
   push:
     paths:
-      - '$MODULE_NAME/**'
+      - "$MODULE_NAME/**"
     branches: [ "master" ]
   pull_request:
     paths:
-      - '$MODULE_NAME/**'
+      - "$MODULE_NAME/**"
     branches: [ "master" ]
 
 jobs:

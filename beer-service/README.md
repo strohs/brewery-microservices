@@ -1,7 +1,7 @@
 ![example workflow](https://github.com/strohs/brewery-microservices/beer-service/actions/workflows/beer-service.yml/badge.svg)
 
 # Brewery Microservices - Beer-Service
-TODOv2
+TODOv2.1
 ## High Level Overview
 ### Brewing Service (Beer Service?)
 - Handles "brewing" of beer
