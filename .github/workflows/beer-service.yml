@@ -1,12 +1,16 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: BeerService build and test
+name: BeerService package and push to docker hub
 
 on:
   push:
+    paths:
+      - 'beer-service/**'
     branches: [ "master" ]
   pull_request:
+    paths:
+      - 'beer-service/**'
     branches: [ "master" ]
 
 jobs:

@@ -1,3 +1,4 @@
+![example workflow](https://github.com/strohs/brewery-microservices/beer-service/actions/workflows/beer-service.yml/badge.svg)
 
 # Brewery Microservices
 
