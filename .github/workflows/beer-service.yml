@@ -9,11 +9,11 @@ env:
 on:
   push:
     paths:
-      - "${{env.MODULE_NAME}}/**"
+      - "beer-service/**"
     branches: [ "master" ]
   pull_request:
     paths:
-      - "${{env.MODULE_NAME}}/**"
+      - "beer-service/**"
     branches: [ "master" ]
 
 jobs:
