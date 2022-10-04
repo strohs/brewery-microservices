@@ -1,0 +1,29 @@
+# Docker compose for use during development
+# runs a local mysql, artemis and zipkin servers
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+
+  artemis:
+    image: strohs/artemis-temurin11:2.24.0
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    environment:
+      - ARTEMIS_USER=artemis
+      - ARTEMIS_PASSWORD=artemis
+      - ANONYMOUS_LOGIN=false
+      - EXTRA_ARGS=--http-host 0.0.0.0 --relax-jolokia
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"

@@ -68,8 +68,10 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_CLOUD_CONFIG_URI: http://config:8888
       SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
-#  Next 3 props are sources from cloud config server
+#      SPRING_CLOUD_CONFIG_FAIL_FAST: false
+#  Next 3 props are sourced from cloud config server
 #      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
 #      SPRING.ARTEMIS.BROKER_URL: "tcp://artemis:61616"
 #      SPRING_DATASOURCE_URL: "jdbc:mysql://mysqldb:3306/beerinventoryservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
@@ -90,6 +92,7 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_CLOUD_CONFIG_URI: http://config:8888
       SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
       SPRING_ZIPKIN_ENABLED: true
@@ -111,6 +114,7 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_CLOUD_CONFIG_URI: http://config:8888
       SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
     networks:
       - brewery
@@ -131,6 +135,7 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_CLOUD_CONFIG_URI: http://config:8888
       SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
       ORG_CJS_BEER_SERVICE_HOST: "http://beer-service:8080"
     networks:
@@ -148,6 +153,7 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+      SPRING_CLOUD_CONFIG_URI: http://config:8888
       SPRING_PROFILES_ACTIVE: local-discovery, local-docker
     networks:
       - brewery
