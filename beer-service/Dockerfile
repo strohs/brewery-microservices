@@ -1,11 +1,11 @@
 FROM eclipse-temurin:17-jre as builder
 WORKDIR application
-ADD target/${project.build.finalName}.jar ${project.build.finalName}.jar
-RUN java -Djarmode=layertools -jar ${project.build.finalName}.jar extract
+ADD target/${PROJECT_BUILD_FINAL_NAME}.jar ${PROJECT_BUILD_FINAL_NAME}.jar
+RUN java -Djarmode=layertools -jar ${PROJECT_BUILD_FINAL_NAME}.jar extract
 
 FROM eclipse-temurin:17-jre
-LABEL PROJECT_NAME=${project.artifactId} \
-      PROJECT=${project.id}
+LABEL PROJECT_NAME=${PROJECT_ARTIFACT_ID} \
+      PROJECT=${PROJECT_ID}
 
 EXPOSE 8080
 
