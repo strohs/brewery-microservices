@@ -20,6 +20,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3 # This action checks-out your repository under $GITHUB_WORKSPACE
@@ -35,19 +36,29 @@ jobs:
       run: mvn -B package --file pom.xml
       working-directory: ${{env.MODULE_NAME}}
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    - name: Get Maven project properties
+      working-directory: ${{env.MODULE_NAME}}
+      run: |
+        echo "project_build_final_name=$(mvn help:evaluate -Dexpression=project.build.finalName -q DforceStdout)" >> $GITHUB_ENV
+        echo "${{ env.project_build_final_name }}"
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+    - name: print the project finalName
+      run: |
+        echo "${{ env.project_build_final_name }}"
 
-    - name: Build and push
-      uses: docker/build-push-action@v3
-      with:
-        context: ./${{env.MODULE_NAME}}
-        file: ./${{env.MODULE_NAME}}/Dockerfile
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{env.MODULE_NAME}}:latest
+#    - name: Login to Docker Hub
+#      uses: docker/login-action@v2
+#      with:
+#        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+#
+#    - name: Set up Docker Buildx
+#      uses: docker/setup-buildx-action@v2
+#
+#    - name: Build and push
+#      uses: docker/build-push-action@v3
+#      with:
+#        context: ./${{env.MODULE_NAME}}
+#        file: ./${{env.MODULE_NAME}}/Dockerfile
+#        push: true
+#        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{env.MODULE_NAME}}:latest
