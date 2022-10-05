@@ -39,7 +39,7 @@ jobs:
     - name: Get Maven project properties
       working-directory: ${{env.MODULE_NAME}}
       run: |
-        echo "project_build_final_name=$(mvn help:evaluate -Dexpression=project.build.finalName -q DforceStdout)" >> $GITHUB_ENV
+        echo "project_build_final_name=$(mvn help:evaluate -Dexpression=project.build.finalName -q -DforceStdout)" >> $GITHUB_ENV
         echo "${{ env.project_build_final_name }}"
 
     - name: print the project finalName
