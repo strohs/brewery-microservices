@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.strohs</groupId>
         <artifactId>brewery-bom</artifactId>
-        <version>1.0.12.RELEASE</version>
+        <version>1.0.13.RELEASE</version>
     </parent>
 
     <groupId>org.cjs.brewery</groupId>
@@ -111,13 +111,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <!-- used to retrieve maven project info from the terminal -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-help-plugin</artifactId>
-                <version>3.2.0</version>
             </plugin>
 
         </plugins>

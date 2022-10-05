@@ -14,7 +14,7 @@ LABEL PROJECT_NAME=${PROJECT_ARTIFACT_ID} \
 
 EXPOSE 8080
 
-# RUN true   added between COPY statement to prevent docker error: faild to load layer....
+# RUN true  added between COPY statements to fix docker error: faild to load layer....
 WORKDIR application
 COPY --from=builder application/dependencies/ ./
 RUN true

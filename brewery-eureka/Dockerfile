@@ -1,15 +1,20 @@
 FROM eclipse-temurin:17-jre as builder
 WORKDIR application
-ADD maven/${project.build.finalName}.jar ${project.build.finalName}.jar
-RUN java -Djarmode=layertools -jar ${project.build.finalName}.jar extract
+ARG PROJECT_BUILD_FINAL_NAME
+ARG PROJECT_ARTIFACT_ID
+ARG PROJECT_ID
+ADD target/${PROJECT_BUILD_FINAL_NAME}.jar ${PROJECT_BUILD_FINAL_NAME}.jar
+RUN java -Djarmode=layertools -jar ${PROJECT_BUILD_FINAL_NAME}.jar extract
 
 FROM eclipse-temurin:17-jre
-LABEL PROJECT_NAME=${project.artifactId} \
-      PROJECT=${project.id}
+ARG PROJECT_ARTIFACT_ID
+ARG PROJECT_ID
+LABEL PROJECT_NAME=${PROJECT_ARTIFACT_ID} \
+      PROJECT=${PROJECT_ID}
 
-EXPOSE 8081
+EXPOSE 8080
 
-# RUN true   added between COPY statement to prevent docker error: faild to load layer....
+# RUN true  added between COPY statements to fix docker error: faild to load layer....
 WORKDIR application
 COPY --from=builder application/dependencies/ ./
 RUN true

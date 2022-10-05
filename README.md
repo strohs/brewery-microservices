@@ -1,4 +1,10 @@
-![example workflow](https://github.com/strohs/brewery-microservices/beer-service/actions/workflows/beer-service.yml/badge.svg)
+![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/beer-service.yml/badge.svg)
+![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/beer-inventory-service.yml/badge.svg)
+![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/beer-inventory-failover-service.yml/badge.svg)
+![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/beer-order-service.yml/badge.svg)
+![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/brewery-config-server.yml/badge.svg)
+![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/brewery-eureka.yml/badge.svg)
+![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/brewery-gateway.yml/badge.svg)
 
 # Brewery Microservices
 
