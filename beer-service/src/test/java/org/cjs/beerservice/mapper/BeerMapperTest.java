@@ -77,7 +77,7 @@ class BeerMapperTest {
         assertEquals(dto.getId(), beer.getId());
         assertEquals(dto.getVersion(), beer.getVersion());
         assertEquals(dto.getCreatedDate().toInstant(), beer.getCreatedDate().toInstant());
-        assertEquals(dto.getLastModifiedDate().toInstant(), beer.getCreatedDate().toInstant());
+        assertEquals(dto.getLastModifiedDate().toInstant(), beer.getLastModifiedDate().toInstant());
         assertEquals(dto.getBeerName(), beer.getBeerName());
         assertEquals(dto.getBeerStyle().name(), beer.getBeerStyle());
         assertEquals(dto.getUpc(), beer.getUpc());
@@ -94,7 +94,7 @@ class BeerMapperTest {
         assertNull(beer.getQuantityToBrew());
         assertEquals(dto.getVersion(), beer.getVersion());
         assertEquals(dto.getCreatedDate().toInstant(), beer.getCreatedDate().toInstant());
-        assertEquals(dto.getLastModifiedDate().toInstant(), beer.getCreatedDate().toInstant());
+        assertEquals(dto.getLastModifiedDate().toInstant(), beer.getLastModifiedDate().toInstant());
         assertEquals(dto.getBeerName(), beer.getBeerName());
         assertEquals(dto.getBeerStyle().name(), beer.getBeerStyle());
         assertEquals(dto.getUpc(), beer.getUpc());
