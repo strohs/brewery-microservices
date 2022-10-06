@@ -8,38 +8,63 @@
 
 # Brewery Microservices
 
-A demonstration microservices project running on Spring Boot / Spring Cloud
+A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS.
 
 
-## High Level Overview
-### Brewing Service (Beer Service?)
-- Handles "brewing" of beer
-- has its own DB of the different beer types that it can brew
-- listens for events on `brewing-request` queue
-- puts events on new-inventory queue
-- will occasionally make requests to 
-
-1. get list of beers (in beer service itself)
-2. for each beer
-   - get inventory quantity on hand (from `inventory service`)
-   - is QoH below brew threshold? 
-     - yes - send brew beer event
-     - no - goto 2
+This project simulates basic functionality of an order management / inventory management system of a brewery using a
+microservices architecture. 
 
 
-#### Brew Beer Listener (event listener on queue)
- - listens on `brewing-request` queue for a "brew beer event" which is triggered by itself when inventory is low
-   - then performs a "brew beer" action
-   - then puts a new inventory event on `new-inventory` queue
-     - inventory service listens for this event and will create a new inventory record
+It consists of three primary services:
+- [beer-service](./beer-service/README.md) - simulates the beer brewing side of the brewery. It listens on
+a message queue for requests to brew more beer, "brews beer", and then notifies the
+beer-inventory-service that more beer has been brewed. It will periodically call the beer-inventory-service to check
+how much beer is on hand and then brew more beer if the inventory is below a certain threshold. 
+This service also validates beer orders from the beer-order-service by verifying the UPC code for each beer in the order.
+- [beer-inventory-service](./beer-inventory-service/README.md) - maintains the brewery's inventory of beer. It listens
+for "new-inventory" events from the beer-service and updates its count of existing beer inventory. It also allocates
+and deallocates inventory based on orders coming in from the beer-order-service
+- [beer-order-service](./beer-order-service) - simulates a beer tasting room by placing an order for a random amount
+of beer every two seconds. This is the main orchestrator of the three microservices. It uses Spring State Machine 
+to keep track of order state as it moves through the services.
 
 
-#### Beer Inventory Service
-- listens on the `new-inventory` queue for "new inventory events" and creates a new inventory record in DB
+Plus many supporting technologies:
+- [brewery-eureka](./brewery-eureka/README.md) - service discovery server using Netflix Eureka
+- [brewery-config-server](./brewery-config-server/README.md) - service configuration server using Spring Cloud Config
+- [brewery-gateway](./brewery-gateway/README.md) - an API Gateway Server using Spring Cloud Gateway
+- [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign) - a declarative REST Client using OpenFeign 
+- [Spring Cloud Circuit Breaker](https://spring.io/projects/spring-cloud-circuitbreaker) - provides failover functionality for all services using the circuit breaker pattern
+- [Spring Cloud Sleuth Zipkin](https://spring.io/projects/spring-cloud-sleuth) - provides distributed tracing for services using [zipkin](https://zipkin.io/)
+- [Spring State Machine](https://spring.io/projects/spring-statemachine) - keeps track of the current state of a beer order across services
+
+
+Each service's data is stored in a single MySQL database using a separate schema and DB user.
+
+[ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) is used as the message broker.
 
 
 
-## Port Mappings - on single host
+## Running Locally
+You should have installed locally: Java 17+, maven 3+, Docker and docker-compose.
+At least 8 gigs of ram available to Docker as it will try to start 10 containers.
+
+The easiest way to run is via Docker using the provided [docker-compose](./docker-compose.yml) file:
+> docker-compose -f ./docker-compose.yml up
+
+
+Give docker about a minute to bring up the containers and to get in sync.  Eventually you should see in the logs that
+the beer order service is placing an order for a random beer every two seconds.
+
+You can view the order transactions as the move through the services using the locally running [zipkin server](http://localhost:9411)
+
+The artemis JMS console is available at: `http:localhost:8161` using an userid and password of `artemis`
+
+
+
+
+
+## Default Port Mappings
 
 | Service Name                    | Port |
 |---------------------------------|------|

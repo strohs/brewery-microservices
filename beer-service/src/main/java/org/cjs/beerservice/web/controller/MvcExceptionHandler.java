@@ -38,8 +38,8 @@ public class MvcExceptionHandler {
     }
 
     /**
-     * Bind exceptions occur when Spring message converters cannot deserialize a request from JSON/XML/....
-     * This handler returns a list of all raw messages for each binding error that occurred... for now
+     * Bind exceptions occur when Spring message converters cannot deserialize a request from JSON/XML/...
+     * This handler returns a ResponseEntity containing a list of all raw messages for each binding error that occurred.
      */
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorDto> handleBindException(BindException bex) {

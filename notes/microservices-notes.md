@@ -278,7 +278,7 @@ many challenges with a microservices:
 - `Basically Available` - build the system to support partial failures
   - loss of some functionality vs. total system loss
 - `Soft state` - transactions cascade across nodes, it can be inconsistent for a period of time
-- `Eventually consistent` - when processing is complete, sytem will be consistent
+- `Eventually consistent` - when processing is complete, system will be consistent
 
 
 ### Feral Concurrency Control
