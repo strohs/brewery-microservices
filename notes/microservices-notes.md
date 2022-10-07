@@ -78,7 +78,7 @@ public class BlockingRestTemplateCustomizer implements RestTemplateCustomizer {
 
 ## Spring Rest Docs
 - uses ASCIIDoc and annotations in your controller classes and test cases to generate documentation for your rest API
-- requires some extensive? set-up in maven.pom and creating a (required) staring AsciiDoc `index.adoc` page in `src/main/asciidoc`. See BeerService
+- requires some extensive? set-up in maven.pom and creating a (required) starting AsciiDoc `index.adoc` page in `src/main/asciidoc`. See BeerService
 - once the docs are built, and copied to `classes/static/docs`, the generated .jar file will place the main index page at `http://localhost:8080/docs/index.html`
 
 ## Processing JSON (with Jackson)

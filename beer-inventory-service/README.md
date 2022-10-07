@@ -4,7 +4,10 @@
 Beer inventory service for the Brewery Microservices project.
 
 This service is responsible for allocating and deallocating inventory as orders come in from the order service.
-In addition, it will also create new inventory when it receives a message to do so from the beer-service
+In addition, it will also create new beer inventory when it receives a message to do so from the beer-service.
+
+This is the only service that has a failover service. If this service goes down or is manually stopped, other services
+will automatically be redirected to the [beer-inventory-failover-service](../beer-inventory-failover-service/README.md).
 
 
 ## Message Queue Endpoints

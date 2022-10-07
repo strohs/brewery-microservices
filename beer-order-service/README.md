@@ -3,11 +3,19 @@
 # Beer Order Service
 
 This service is responsible for simulating beer orders from the brewery's "taproom".
-More importantly, this service is the orchestrator of all the other microservices. 
+More importantly, this service is the orchestrator of sagas across the other microservices. 
 It handles the happy path of an order as well as the possibility that an order could not be fulfilled due to not 
-enough inventory or due to a customer "cancelling" the order. 
+having enough inventory or due to a customer "cancelling" their order. 
 
 Spring State Machine is used to keep track of the [order states](./src/main/java/org/cjs/beer/order/service/domain/BeerOrderStatusEnum.java).
+
+
+## Database Schema
+- database name = `beerorderservice`
+- userid = `beer_order_service`
+- password = `password`
+- table = `BeerOrder` described in [BeerOrder](./src/main/java/org/cjs/beer/order/service/domain/BeerOrder.java)
+
 
 ## Message Queue Endpoints
 
@@ -32,11 +40,3 @@ The following endpoints are exposed. Each endpoint returns a JSON response, all 
 | `/api/v1/customers/{customerId}/orders/{orderId}/pickup` | PUT    | customerId, orderId,                       | N/A          | N/A                | update the status of the given order/customer to 'PICKUP' |
 |                                                          |        |                                            |              |                    |                                                           |
 | `/api/v1/customers/`                                     | GET    | N/A                                        | N/A          | CustomerPagedList  | get a pageable list of brewery customers                  |
-
-
-
-## Database Schema
-- database name = `beerorderservice`
-- userid = `beer_order_service`
-- password = `password`
-- table = `BeerOrder` described in [BeerOrder](./src/main/java/org/cjs/beer/order/service/domain/BeerOrder.java)

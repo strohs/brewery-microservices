@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Profile;
  * Eureka server is running on a separate instance.
  * Note that the uri properties are configured to use the "lb:" prefix which indicates that
  * load balancing should be used across the microservices.
- * The circuit breaker patter is used with the "inventory-service" route, we can use it because we have
- * Resilience4J on the classpath... the same config seen here would be used with Hystrix
+ * The circuit breaker pattern is used with the "inventory-service" route, we can use it because we have
+ * Resilience4J on the classpath... the same config seen here could be used with Hystrix as well
  */
 @Profile("local-discovery")
 @Configuration

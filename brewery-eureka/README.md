@@ -2,4 +2,9 @@
 
 # Brewery Eureka Service
 
-Eureka Server enabling service discovery for Brewery Microservices
+Eureka Server enabling service discovery for the Brewery Microservices.
+
+This server is secured using HTTP Basic authentication:
+- userId = `netflix`
+- password = `eureka`
+

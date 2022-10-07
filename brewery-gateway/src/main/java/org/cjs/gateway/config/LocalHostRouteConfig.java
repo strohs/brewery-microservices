@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-
+/**
+ * This sample configuration will remap REST API requests directly to localhost on a specific port.
+ */
 @Profile("!local-discovery")
 @Configuration
 public class LocalHostRouteConfig {
