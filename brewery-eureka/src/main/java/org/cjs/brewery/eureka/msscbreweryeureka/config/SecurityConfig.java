@@ -31,6 +31,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
+                        .antMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
