@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/actuator/health").permitAll()
+                .antMatchers("/actuator/info").permitAll()
                 //.antMatchers("/encrypt", "/decrypt").permitAll()
                 .anyRequest().authenticated()
                 .and()

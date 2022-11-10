@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysqldb:
-    image: mysql:latest
+    image: mysql:8.0.30
     ports:
       - "3306:3306"
     environment:
@@ -68,8 +68,8 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
-      SPRING_CLOUD_CONFIG_URI: http://config:8888
       SPRING_PROFILES_ACTIVE: local-discovery, local, local-docker
+      SPRING_CLOUD_CONFIG_URI: http://config:8888
 #      SPRING_CLOUD_CONFIG_FAIL_FAST: false
 #  Next 3 props are sourced from cloud config server
 #      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
