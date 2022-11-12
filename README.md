@@ -6,12 +6,12 @@
 ![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/brewery-eureka.yml/badge.svg)
 ![example workflow](https://github.com/strohs/brewery-microservices/actions/workflows/brewery-gateway.yml/badge.svg)
 
-# Brewery Microservices
+Brewery Microservices
+======================================================================================================================
+A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS and Docker.
 
-A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS.
 
-
-This project simulates basic functionality of an order management / inventory management system of a brewery using a
+This project simulates functionality of an order management / inventory management system of a "brewery" using a
 microservices architecture. 
 
 
@@ -37,11 +37,10 @@ Plus many supporting technologies:
 - [Spring Cloud Circuit Breaker](https://spring.io/projects/spring-cloud-circuitbreaker) - provides failover functionality for all services using the circuit breaker pattern
 - [Spring Cloud Sleuth Zipkin](https://spring.io/projects/spring-cloud-sleuth) - provides distributed tracing for services using [zipkin](https://zipkin.io/)
 - [Spring State Machine](https://spring.io/projects/spring-statemachine) - keeps track of the current state of a beer order across services
+- [ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) is used as the message broker.
 
 
-Each service's data is stored in a single MySQL database using a separate schema and DB user.
-
-[ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) is used as the message broker.
+MySQL is used as the database provider with each service's data stored in a separate schema, and a separate DB user.
 
 
 
@@ -49,23 +48,32 @@ Each service's data is stored in a single MySQL database using a separate schema
 You should have installed locally: Java 17+, maven 3+, Docker and docker-compose.
 At least 8 gigs of ram available to Docker as it will try to start 10 containers.
 
+
 The easiest way to run is via Docker using the provided [docker-compose](./docker-compose.yml) file:
 > docker-compose -f ./docker-compose.yml up
 
 
-Give docker about a minute to bring up the containers and to get in sync.  Eventually you should see in the logs that
-the beer order service is placing an order for a random beer every two seconds.
+Give docker about a minute to bring up the containers and to get in sync.  Eventually you should see in the docker logs 
+that the beer order service is placing an order for a random beer every two seconds.
 
-You can view the order transactions as the move through the services using the locally running [zipkin server](http://localhost:9411)
+You can view the order transactions as the move through the services using the locally running [zipkin web console](http://localhost:9411).
+When the zipkin web console appears, click the blue `run query` button, and you should see a list of all completed sagas.
 
 The artemis JMS console is available at: `http:localhost:8161` using an userid and password of `artemis`
 
 
+## default usernames and passwords
+| Service                    | username   | password         |
+|----------------------------|------------|------------------|
+| MySQL admin account        | root       | password         |
+| eureka web console         | netflix    | eureka           |
+| config server              | MyUserName | MySecretPassword |
+| inventory service REST API | good       | beer             |
+| artemis management console | artemis    | artemis          |
 
 
 
 ## Default Port Mappings
-
 | Service Name                    | Port |
 |---------------------------------|------|
 | Beer Service                    | 8080 |

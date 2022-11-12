@@ -77,6 +77,9 @@ export class BreweryInfrastructureStack extends cdk.Stack {
   // creates a bastion ec2 instance, in a public subnet of the vpc.
   // the keypair must already exist in the default region
   private createBastionInstance(): ec2.Instance {
+
+    const keyPairName = this.node.tryGetContext('keyPairName');
+
     return new ec2.Instance(this, 'bastion', {
       vpc: this.vpc.vpc,
       vpcSubnets: {
@@ -90,7 +93,7 @@ export class BreweryInfrastructureStack extends cdk.Stack {
       machineImage: new ec2.AmazonLinuxImage({
         generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
       }),
-      keyName: 'cliff-aws-keypair'
+      keyName: keyPairName,
     });
   }
 }
