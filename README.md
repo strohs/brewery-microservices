@@ -100,3 +100,7 @@ The artemis JMS console is available at: `http:localhost:8161` using an userid a
 | Brewery Eureka                  | 8761 |
 | Brewery Configuration Server    | 8888 |
 
+
+## Running aws
+The [aws](./aws) directory contains an example AWS CDK project that will run this project on AWS infrastructure. See
+the projects [readme](./aws/README.md) for more information.
