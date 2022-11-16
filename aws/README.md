@@ -1,13 +1,18 @@
 Brewery Microservices on AWS
 =====================================================
-This directory contains a Cloud Development Kit (CDK) project, written in TypeScript, that demonstrates how to deploy an 
-example cluster of brewery microservices onto AWS Elastic Container Service.
+This directory contains a Cloud Development Kit (CDK) project, written in TypeScript, that demonstrates how to deploy 
+the brewery microservices onto AWS Elastic Container Service. 
 
-It's not meant to be a production ready deployment. It's merely an example of how to use the cdk to create 
-the resources needed to run the existing brewery microservice architecture.
+**It will incur the normal AWS costs**. See below for the resources that are deployed.
 
-It mirrors the architecture of the [docker-compose](../docker-compose.yml) network from the main project, and will deploy one
-of each type of the following servers:
+This example project is not meant to be a recommended production deployment, but it is close.
+It does not use AWS Secrets Manager to store passwords. It does not use a dedicated JMS cluster as AWS does not yet
+provide one for Artemis JMS.  
+
+But for the most part it mirrors the architecture of the [docker-compose](../docker-compose.yml) network from the main 
+project, and will deploy one container instance for each service.
+
+Specifically, it deploys the following resources:
 - one zipkin server
 - one artemis server
 - one eureka server
@@ -19,7 +24,7 @@ of each type of the following servers:
 
 Each of the above servers will be running on ec2 t3.medium instances.
 
-Additionally, the following additional AWS resources will be created:
+The following additional AWS resources will also be created:
 - A VPC with one private and one public subnet spread across two AZs
 - A NAT gateway to give the container instances access to docker hub from the private subnet
 - one AWS RDS instance - to run the mysql database
