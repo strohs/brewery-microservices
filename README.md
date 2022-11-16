@@ -8,11 +8,12 @@
 
 Brewery Microservices
 ======================================================================================================================
-A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS and Docker.
+A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS / Docker.
 
 
-This project simulates functionality of an order management / inventory management system of a "brewery" using a
-microservices architecture. 
+This project simulates functionality of an order management / inventory management system of a beer brewery using a
+microservices architecture. Services use message queues to communicate and maintain state as a beer order moves through
+the system.
 
 
 It consists of three primary services:
@@ -21,20 +22,30 @@ a message queue for requests to brew more beer, "brews beer", and then notifies 
 beer-inventory-service that more beer has been brewed. It will periodically call the beer-inventory-service to check
 how much beer is on hand and then brew more beer if the inventory is below a certain threshold. 
 This service also validates beer orders from the beer-order-service by verifying the UPC code for each beer in the order.
+
+
 - [beer-inventory-service](./beer-inventory-service/README.md) - maintains the brewery's inventory of beer. It listens
 for "new-inventory" events from the beer-service and updates its count of existing beer inventory. It also allocates
 and deallocates inventory based on orders coming in from the beer-order-service
+
+
 - [beer-order-service](./beer-order-service) - simulates a beer tasting room by placing an order for a random amount
-of beer every two seconds. This is the main orchestrator of the three microservices. It uses Spring State Machine 
+of beer every two seconds. This service is the orchestrator of all three microservices. It uses Spring State Machine 
 to keep track of order state as it moves through the services.
 
 
-Plus many supporting technologies:
+Plus one example failover service:
+- [beer-inventory-failover-service](./beer-inventory-failover-service/README.md) - this example service will handle
+requests to the beer-inventory-service should it go down. 
+
+
+
+Many supporting technologies are also used:
 - [brewery-eureka](./brewery-eureka/README.md) - service discovery server using Netflix Eureka
 - [brewery-config-server](./brewery-config-server/README.md) - service configuration server using Spring Cloud Config
 - [brewery-gateway](./brewery-gateway/README.md) - an API Gateway Server using Spring Cloud Gateway
 - [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign) - a declarative REST Client using OpenFeign 
-- [Spring Cloud Circuit Breaker](https://spring.io/projects/spring-cloud-circuitbreaker) - provides failover functionality for all services using the circuit breaker pattern
+- [Spring Cloud Circuit Breaker](https://spring.io/projects/spring-cloud-circuitbreaker) - provides failover functionality for the beer-inventory-service using the circuit breaker pattern
 - [Spring Cloud Sleuth Zipkin](https://spring.io/projects/spring-cloud-sleuth) - provides distributed tracing for services using [zipkin](https://zipkin.io/)
 - [Spring State Machine](https://spring.io/projects/spring-statemachine) - keeps track of the current state of a beer order across services
 - [ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) is used as the message broker.
@@ -42,6 +53,8 @@ Plus many supporting technologies:
 
 MySQL is used as the database provider with each service's data stored in a separate schema, and a separate DB user.
 
+## High Level architecture
+![high-level-architecture](/notes/architecture.jpg)
 
 
 ## Running Locally
