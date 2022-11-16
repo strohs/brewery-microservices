@@ -10,40 +10,32 @@ Brewery Microservices
 ======================================================================================================================
 A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS / Docker.
 
-
-This project simulates the functionality of an order management / inventory management system of a beer brewery using a
-microservices architecture. 
-
-Beer orders are randomly generated from the "taproom" for a random amount of beer bottles. The order enters the system
-and can be eventually fulfilled or rejected based on available inventory.
-
-Message queues are used to communicate and maintain the state of the order as it moves through
-the system. MySQL is used as the database provider with each service's data stored in a separate schema, with a separate DB user.
+This project simulates the functionality of an order management / inventory management system of an imaginary beer 
+brewery using a microservices architecture. 
 
 
-The system itself consists of three primary microservices:
+The system itself consists of three microservices:
+
+- [beer-order-service](./beer-order-service) - simulates the brewery tasting room by generating orders for a random amount
+of beer every two seconds. This service is the orchestrator of the other two microservices and maintains the overall 
+state of the order using Spring State Machine.
 
 - [beer-service](./beer-service/README.md) - simulates the beer brewing side of the brewery. It listens on
 a message queue for requests to brew more beer, "brews beer", and then notifies the
 beer-inventory-service that more beer has been brewed. It will periodically call the beer-inventory-service to check
 how much beer is on hand and then brew more beer if the inventory is below a certain threshold. 
-This service also validates beer orders from the beer-order-service by verifying the UPC code for each beer in the order.
-
+Additionally, this service also validates beer orders from the beer-order-service by verifying the UPC code for each 
+beer in the order.
 
 - [beer-inventory-service](./beer-inventory-service/README.md) - maintains the brewery's inventory of beer. It listens
 for "new-inventory" events from the beer-service and updates its count of existing beer inventory. It also allocates
 and deallocates inventory based on orders coming in from the beer-order-service
 
-
-- [beer-order-service](./beer-order-service) - simulates a beer tasting room by placing an order for a random amount
-of beer every two seconds. This service is the orchestrator of all three microservices. It uses Spring State Machine 
-to keep track of order state as it moves through the services.
-
-
+  
 Plus one failover service:
 
 - [beer-inventory-failover-service](./beer-inventory-failover-service/README.md) - this example service will handle
-requests to the beer-inventory-service should it go down.
+requests to the beer-inventory-service REST Api should it go down.
 
 
 
@@ -57,6 +49,10 @@ Plus many supporting technologies:
 - [Spring State Machine](https://spring.io/projects/spring-statemachine) - keeps track of the current state of a beer order across services
 - [ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) is used as the message broker.
 
+
+Message queues are used to communicate and maintain the state of the order as it moves through
+the system.
+MySQL is used as the database provider with each service's data stored in a separate schema, with a separate DB user.
 
 
 ## High Level architecture
@@ -72,7 +68,7 @@ The easiest way to run is via Docker using the provided [docker-compose](./docke
 > docker-compose -f ./docker-compose.yml up
 
 
-Give docker about a minute to bring up the containers and to get in sync.  Eventually you should see in the docker logs 
+Give docker about a minute to bring up the containers and get in sync.  Eventually you should see in the docker logs 
 that the beer order service is placing an order for a random beer every two seconds.
 
 You can view the order transactions as the move through the services using the locally running [zipkin web console](http://localhost:9411).
