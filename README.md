@@ -56,7 +56,8 @@ MySQL is used as the database provider with each service's data stored in a sepa
 
 
 ## High Level architecture
-![high-level-architecture](./notes/architecture.jpg)
+
+![architecture](notes/architecture.jpg)
 
 
 ## Running Locally
