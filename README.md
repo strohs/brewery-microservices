@@ -11,12 +11,18 @@ Brewery Microservices
 A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS / Docker.
 
 
-This project simulates functionality of an order management / inventory management system of a beer brewery using a
-microservices architecture. Services use message queues to communicate and maintain state as a beer order moves through
-the system.
+This project simulates the functionality of an order management / inventory management system of a beer brewery using a
+microservices architecture. 
+
+Beer orders are randomly generated from the "taproom" for a random amount of beer bottles. The order enters the system
+and can be eventually fulfilled or rejected based on available inventory.
+
+Message queues are used to communicate and maintain the state of the order as it moves through
+the system. MySQL is used as the database provider with each service's data stored in a separate schema, with a separate DB user.
 
 
-It consists of three primary services:
+The system itself consists of three primary microservices:
+
 - [beer-service](./beer-service/README.md) - simulates the beer brewing side of the brewery. It listens on
 a message queue for requests to brew more beer, "brews beer", and then notifies the
 beer-inventory-service that more beer has been brewed. It will periodically call the beer-inventory-service to check
@@ -34,13 +40,14 @@ of beer every two seconds. This service is the orchestrator of all three microse
 to keep track of order state as it moves through the services.
 
 
-Plus one example failover service:
+Plus one failover service:
+
 - [beer-inventory-failover-service](./beer-inventory-failover-service/README.md) - this example service will handle
-requests to the beer-inventory-service should it go down. 
+requests to the beer-inventory-service should it go down.
 
 
 
-Many supporting technologies are also used:
+Plus many supporting technologies:
 - [brewery-eureka](./brewery-eureka/README.md) - service discovery server using Netflix Eureka
 - [brewery-config-server](./brewery-config-server/README.md) - service configuration server using Spring Cloud Config
 - [brewery-gateway](./brewery-gateway/README.md) - an API Gateway Server using Spring Cloud Gateway
@@ -51,10 +58,9 @@ Many supporting technologies are also used:
 - [ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) is used as the message broker.
 
 
-MySQL is used as the database provider with each service's data stored in a separate schema, and a separate DB user.
 
 ## High Level architecture
-![high-level-architecture](/notes/architecture.jpg)
+![high-level-architecture](notes/architecture.jpg)
 
 
 ## Running Locally
