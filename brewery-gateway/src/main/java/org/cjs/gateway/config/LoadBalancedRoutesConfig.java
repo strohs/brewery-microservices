@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- * uses a eureka server to discover the locations of these services.
- * Eureka server is running on a separate instance.
+ * uses a eureka server to discover the locations of registered microservice.
+ * The Eureka server is running on a separate instance.
  * Note that the uri properties are configured to use the "lb:" prefix which indicates that
  * load balancing should be used across the microservices.
  * The circuit breaker pattern is used with the "inventory-service" route, we can use it because we have

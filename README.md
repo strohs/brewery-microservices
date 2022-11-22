@@ -8,15 +8,32 @@
 
 Brewery Microservices
 ======================================================================================================================
-A sample microservices project running on Spring Boot / Spring Cloud / MySQL / Artemis JMS / Docker.
+A sample microservices project powered by Spring Boot / Spring Cloud / MySQL / Artemis JMS / Docker.
 
-This project simulates the functionality of an order management / inventory management system of an imaginary beer 
-brewery using a microservices architecture. 
+This project uses a microservices architecture to simulate an order management / inventory management system of an 
+imaginary beer brewery.
+
+It showcases common microservice architecture concepts, including:
+
+- [service discovery](./brewery-eureka/README.md) using netflix eureka server/client
+- [centralized service configuration](./brewery-config-server/README.md) using Spring Cloud Config
+- [circuit breaker pattern](https://spring.io/projects/spring-cloud-circuitbreaker) to provide failover functionality for the beer-inventory-service
+- [API gateway](./brewery-gateway/README.md) running on Spring Cloud Gateway, that uses load-balancing and route matching to route REST API requests to the appropriate microservice
+- [distributed tracing](https://spring.io/projects/spring-cloud-sleuth) for microservices using [zipkin](https://zipkin.io/)
+- orchestration pattern using [Spring State Machine](https://spring.io/projects/spring-statemachine) to keep track of the state of a beer order as it moves between services
+
+The entire project has been containerized and can be [run locally](#Running) on your machine using Docker.
+
+Additionally, an example [aws](./aws/README.md) CDK project has been provided, that can be used to launch a minimal 
+version of this project within Elastic Container Service (ECS). (you are responsible for all AWS fees that will be incurred)
 
 
-The system itself consists of three microservices:
+## Overview
+The project simulates beer orders being placed by customers from the brewery's tap room. As orders are placed, they get
+validated, inventory is updated and then beer is ultimately "delivered" to the customer. Each of these functions
+is handled by one of the three core microservices:
 
-- [beer-order-service](./beer-order-service) - simulates the brewery tasting room by generating orders for a random amount
+- [beer-order-service](./beer-order-service/README.md) - simulates the brewery tasting room by generating orders for a random amount
 of beer every two seconds. This service is the orchestrator of the other two microservices and maintains the overall 
 state of the order using Spring State Machine.
 
@@ -31,27 +48,12 @@ beer in the order.
 for "new-inventory" events from the beer-service and updates its count of existing beer inventory. It also allocates
 and deallocates inventory based on orders coming in from the beer-order-service
 
-  
-Plus one failover service:
-
 - [beer-inventory-failover-service](./beer-inventory-failover-service/README.md) - this example service will handle
-requests to the beer-inventory-service REST Api should it go down.
+  requests to the beer-inventory-service REST Api should it go down.
 
 
-
-Plus many supporting technologies:
-- [brewery-eureka](./brewery-eureka/README.md) - service discovery server using Netflix Eureka
-- [brewery-config-server](./brewery-config-server/README.md) - service configuration server using Spring Cloud Config
-- [brewery-gateway](./brewery-gateway/README.md) - an API Gateway Server using Spring Cloud Gateway
-- [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign) - a declarative REST Client using OpenFeign 
-- [Spring Cloud Circuit Breaker](https://spring.io/projects/spring-cloud-circuitbreaker) - provides failover functionality for the beer-inventory-service using the circuit breaker pattern
-- [Spring Cloud Sleuth Zipkin](https://spring.io/projects/spring-cloud-sleuth) - provides distributed tracing for services using [zipkin](https://zipkin.io/)
-- [Spring State Machine](https://spring.io/projects/spring-statemachine) - keeps track of the current state of a beer order across services
-- [ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) is used as the message broker.
-
-
-Message queues are used to communicate and maintain the state of the order as it moves through
-the system.
+Message queues, [ActiveMQ Artemis](https://activemq.apache.org/components/artemis/), are used to communicate and 
+maintain the state of the order as it moves through the system.
 MySQL is used as the database provider with each service's data stored in a separate schema, with a separate DB user.
 
 
@@ -60,7 +62,7 @@ MySQL is used as the database provider with each service's data stored in a sepa
 ![architecture](notes/architecture.jpg)
 
 
-## Running Locally
+## Running
 You should have installed locally: Java 17+, maven 3+, Docker and docker-compose.
 At least 8 gigs of ram available to Docker as it will try to start 10 containers.
 
@@ -72,7 +74,7 @@ The easiest way to run is via Docker using the provided [docker-compose](./docke
 Give docker about a minute to bring up the containers and get in sync.  Eventually you should see in the docker logs 
 that the beer order service is placing an order for a random beer every two seconds.
 
-You can view the order transactions as the move through the services using the locally running [zipkin web console](http://localhost:9411).
+You can (and should) view the order transactions as the move through the services using the locally running [zipkin web console](http://localhost:9411).
 When the zipkin web console appears, click the blue `run query` button, and you should see a list of all completed sagas.
 
 The artemis JMS console is available at: `http:localhost:8161` using an userid and password of `artemis`
@@ -103,5 +105,5 @@ The artemis JMS console is available at: `http:localhost:8161` using an userid a
 
 ## Running on Amazon Web Services
 The [aws](./aws) directory contains an example AWS Cloud Development Kit project that will run this project on AWS 
-infrastructure. It assumes you have familiarity with AWS. 
+infrastructure. It assumes you have familiarity with AWS and the Cloud Development Kit for TypeScript.
 See the project [readme](./aws/README.md) for more information.
