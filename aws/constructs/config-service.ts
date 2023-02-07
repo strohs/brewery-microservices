@@ -10,7 +10,7 @@ import {
 } from "./brewery-service";
 
 /**
- * Creates a spring cloud configuration service
+ * Construct that defines an ECS task definition and ECS service for spring cloud configuration server
  */
 export class ConfigService extends Construct {
 

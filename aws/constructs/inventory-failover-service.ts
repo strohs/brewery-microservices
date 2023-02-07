@@ -9,7 +9,9 @@ import {
 } from "./brewery-service";
 import {ZipkinService} from "./zipkin-service";
 
-
+/**
+ * Construct that defines the ECS taskDefinition and ECS service for the brewery failover service
+ */
 export class InventoryFailoverService extends Construct {
 
     public static readonly IMAGE_NAME = 'strohs/beer-inventory-failover-service';

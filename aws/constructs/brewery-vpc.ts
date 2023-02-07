@@ -6,6 +6,13 @@ import {ConfigService} from "../constructs/config-service";
 import {ZipkinService} from "../constructs/zipkin-service";
 import {ArtemisService} from "../constructs/artemis-service";
 
+/**
+ * Construct that defines the VPC and other associated network infrastructure needed for the microservices.
+ * This construct defines the following:
+ * - one public subnet
+ * - one private subnet
+ * - eight security groups
+ */
 export class BreweryVpc extends Construct {
     // to get current region: Stack.of(this).region
 

@@ -1,4 +1,4 @@
-# Docker compose for use during development
+# Docker compose for use during local development
 # runs a local mysql, artemis and zipkin servers
 version: '3.8'
 

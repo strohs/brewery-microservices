@@ -12,6 +12,9 @@ import {
 import {BeerService} from "./beer-service";
 
 
+/**
+ * Construct that defines the ECS taskDefinition and ECS service for the brewery order service
+ */
 export class OrderService extends Construct {
 
     public static readonly IMAGE_NAME = `strohs/beer-order-service`;

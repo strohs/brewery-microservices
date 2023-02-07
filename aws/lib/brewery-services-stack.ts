@@ -14,6 +14,13 @@ import {BeerService} from "../constructs/beer-service";
 import {OrderService} from "../constructs/order-service";
 import {buildClusterWithAsg} from "../constructs/brewery-service";
 
+/**
+ * This stack creates the actual brewery microservices... services within separate ECS clusters.
+ * Each cluster is configured to launch only one instance of the service.
+ *
+ * The application load balancer that is possed within props.alb property will be configured to give
+ * access to the web consoles (from the internet), of the following services: zipkin, eureka, configuration service
+ */
 export class BreweryServicesStack extends cdk.Stack {
 
     public readonly cluster: ecs.ICluster;
@@ -125,7 +132,7 @@ export class BreweryServicesStack extends cdk.Stack {
         this.eurekaService = eurekaService;
 
 
-        //// Build a Configuration server cluster
+        // Build a Configuration server cluster
         const configCluster = buildClusterWithAsg(this, {
             id: 'Config',
             vpc: props.vpc.vpc,

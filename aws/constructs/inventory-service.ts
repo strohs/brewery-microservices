@@ -9,7 +9,9 @@ import {
     SPRING_PROFILE_ACTIVE
 } from "./brewery-service";
 
-
+/**
+ * Construct that defines the ECS taskDefinition and ECS service for the brewery Inventory service
+ */
 export class InventoryService extends Construct {
 
     public static readonly IMAGE_NAME = 'strohs/beer-inventory-service';

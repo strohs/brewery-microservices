@@ -1,11 +1,19 @@
 import * as cdk from 'aws-cdk-lib';
-import {BreweryVpc} from "./brewery-vpc";
+import {BreweryVpc} from "../constructs/brewery-vpc";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as servicediscovery from "aws-cdk-lib/aws-servicediscovery";
 import * as elb from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import {BreweryMySql} from "./brewery-db";
+import {BreweryMySql} from "../constructs/brewery-db";
 import {DEFAULT_NAMESPACE} from "../constructs/brewery-service";
 
+/**
+ * This stack builds the AWS network infrastructure needed by our microservices:
+ * - the vpc
+ * - the cloudMap namespace
+ * - an internet facing, application load balancer
+ * - a bastion server on the public VPC so we can configure MySQL
+ * - a single MySQL instance running within RDS on the private VPC
+ */
 export class BreweryInfrastructureStack extends cdk.Stack {
 
   public readonly vpc: BreweryVpc;

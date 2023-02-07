@@ -65,6 +65,12 @@ export function buildClusterWithAsg(construct: Construct, props: ClusterProps): 
     return cluster;
 }
 
+/**
+ * helper function that can be used to build an ecs service from the given construct, taskDefinition, and service Props
+ * @param construct
+ * @param taskDefinition
+ * @param props
+ */
 export function buildService(construct: Construct, taskDefinition: TaskDefinition, props: BreweryServiceProps): ecs.Ec2Service {
     return new ecs.Ec2Service(construct, `${props.serviceName}Service`, {
         cluster: props.cluster,

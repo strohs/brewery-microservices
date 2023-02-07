@@ -4,8 +4,8 @@
 
 This service is responsible for simulating beer orders from the brewery's "taproom".
 More importantly, this service is the orchestrator of sagas across the other microservices. 
-It handles the happy path of an order as well as the possibility that an order could not be fulfilled due to not 
-having enough inventory or due to a customer "cancelling" their order. 
+It handles the happy path of an order, plus the possibility that an order could not be fulfilled due to not 
+having enough inventory or due to a customer randomly "cancelling" their order. 
 
 Spring State Machine is used to keep track of the [order states](./src/main/java/org/cjs/beer/order/service/domain/BeerOrderStatusEnum.java).
 

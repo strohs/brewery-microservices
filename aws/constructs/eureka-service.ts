@@ -5,7 +5,11 @@ import {NetworkMode} from "aws-cdk-lib/aws-ecs";
 import {ZipkinService} from "./zipkin-service";
 import {buildService, CONTAINER_MEMORY_RESERVATION_MIB} from "./brewery-service";
 
-
+/**
+ * Construct that defines an ECS taskDefinition and ECS service for a eureka service discovery service
+ * NOTE that, ideally you could skip Eureka alltogether and simply use AWS CloudMap for service discovery. However,
+ * this would require a major rewrite of our existing microservices.
+ */
 export class EurekaService extends Construct {
 
     public static readonly IMAGE_NAME = 'strohs/brewery-eureka';

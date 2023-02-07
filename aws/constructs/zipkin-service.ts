@@ -4,6 +4,9 @@ import {NetworkMode, Protocol} from "aws-cdk-lib/aws-ecs";
 import {BreweryServiceProps} from "../lib/brewery-service-props";
 import {buildService, CONTAINER_MEMORY_RESERVATION_MIB, DEFAULT_NAMESPACE} from "./brewery-service";
 
+/**
+ * Construct that defines the ECS taskDefinition and ECS service for the zipkin tracing service
+ */
 export class ZipkinService extends Construct {
 
     public static readonly IMAGE_NAME = 'openzipkin/zipkin';

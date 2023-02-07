@@ -4,7 +4,9 @@ import {NetworkMode} from "aws-cdk-lib/aws-ecs";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import {buildService, CONTAINER_MEMORY_RESERVATION_MIB} from "./brewery-service";
 
-
+/**
+ * Configures a single Apache Artemis container
+ */
 export class ArtemisService extends Construct {
 
     public static readonly WEB_CONSOLE_PORT = 8161;

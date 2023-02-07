@@ -3,7 +3,7 @@ import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as servicediscovery from "aws-cdk-lib/aws-servicediscovery";
 
 /**
- * Common properties that can be used to define ECS brewery services
+ * Common properties that can be used to define a brewery microservice on ECS
  */
 export interface BreweryServiceProps {
     // VPC the cluster is deployed to

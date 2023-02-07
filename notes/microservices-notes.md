@@ -146,7 +146,7 @@ When using Spring Parent POMs you might create your own BOM that inherits a Pare
 configurations to it, and then include your BOM in your project.
 
 ### Hosting maven artifacts
-see https://jitpack.io  or you can always try to register with maven central
+see https://jitpack.io, or you can always try to register with maven central
 
 
 

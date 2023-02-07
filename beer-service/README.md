@@ -45,5 +45,5 @@ The following endpoints are exposed. Each endpoint returns a JSON response. Any 
 | `/api/v1/beer/{beerId}`     | PUT    | beerId= UUID of beer     | BeerDto      | BeerDto           | update fields of an existing beer                           |
 
 
-There are some (partial) REST docs available at `http://localhost:8080/docs/index.html` that were generated using
+There are some (partial) REST docs for this service at `http://localhost:8080/docs/index.html`, they were generated using
 Spring Rest Docs.

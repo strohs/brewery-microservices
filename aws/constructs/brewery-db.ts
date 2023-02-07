@@ -11,6 +11,9 @@ export interface DbProps {
     vpc: BreweryVpc,
 }
 
+/**
+ * Construct definition for a single, (non-clustered) RDS instance, running MySQL on EC2 small instance
+ */
 export class BreweryMySql extends Construct {
 
     public readonly db: DatabaseInstance;

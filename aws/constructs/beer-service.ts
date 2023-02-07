@@ -9,6 +9,9 @@ import * as ecs from "aws-cdk-lib/aws-ecs";
 import {BreweryServiceProps} from "../lib/brewery-service-props";
 import {NetworkMode} from "aws-cdk-lib/aws-ecs";
 
+/**
+ * Construct that defines the BeerService microservice as an EC2 task definition (and service)
+ */
 export class BeerService extends Construct {
 
     public static readonly IMAGE_NAME = `strohs/beer-service`;
