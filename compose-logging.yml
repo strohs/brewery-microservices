@@ -53,7 +53,7 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
 
   artemis:
-    image: strohs/artemis-temurin11:2.24.0
+    image: apache/activemq-artemis:latest-alpine
     ports:
       - "61616:61616"
       - "8161:8161"

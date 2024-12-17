@@ -24,18 +24,17 @@ It showcases some common microservice architecture concepts, including:
 
 
 MySql is used as the project database.  Only a single MySQL server instance is started and then shared by the individual
-services. Each service has their own database within the server with separate users. This was done to reduce the 
+services. Each service maintains their own databases within the single server, but with separate users. This was done to reduce the 
 amount of containers that get launched. In an actual production environment, each service would have their own separate DB server.  
 
-[ActiveMQ Artemis](https://activemq.apache.org/components/artemis/), message queues are used to communicate and
-maintain the state of the order as it moves through the system.
+[ActiveMQ Artemis](https://activemq.apache.org/components/artemis/), message queues are used to communicate and maintain the state of the order as it moves through the system.
 
 
 The entire project has been containerized and can be [run locally](#Running) on your machine using Docker.
 
 
 Additionally, an example [aws](./aws/README.md) Cloud Development Kit (CDK) project has been provided, that can be used to launch a minimal 
-version of this project within Elastic Container Service (ECS). (you are responsible for all AWS fees that will be incurred)
+version of this project within Elastic Container Service (ECS). (This will incur AWS fees which you are responsible for)
 
 
 ## Overview

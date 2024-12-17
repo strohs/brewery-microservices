@@ -1,5 +1,5 @@
 # Docker compose for use during local development
-# runs a local mysql, artemis and zipkin servers
+# starts local mysql, Artemis JMS and Zipkin servers
 version: '3.8'
 
 services:
@@ -13,7 +13,7 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
 
   artemis:
-    image: strohs/artemis-temurin11:2.24.0
+    image: apache/activemq-artemis:latest-alpine
     ports:
       - "61616:61616"
       - "8161:8161"

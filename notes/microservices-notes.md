@@ -267,7 +267,7 @@ many challenges with a microservices:
 - `Availability` - each read will get a response, but without the guarantee that data is most recent write
 - `Partition Tolerance` - system continues in lieu of communication errors or delays
 
-- `CAP Theorem` - states that a distributes system can only maintain two of three
+- `CAP Theorem` - states that a distributed system can only maintain two of three
 
 
 ### BASE (an ACID alternative)
@@ -421,7 +421,7 @@ Spring team was originally going to migrate to Zuul 2 but decided to write their
 
 #### Types of Gateways
 - hardware based (like F5 networks)
-- SaaS - AWS Elastice Load Balancer
+- SaaS - AWS Elastic Load Balancer
 - Web Servers configured as proxies
 - Developer Oriented - (Zuul) or Spring Cloud Gateway
 - ... plus others
@@ -597,7 +597,7 @@ There are two ways to bootstrap a configuration:
 
 - Config First 
   - when a client bootstraps, it knows and connects to directly to a config server to obtain required configuration properties
-  - you have to config the uri of the configuration server, if it every changes you will need to change this uri in every app that uses it 
+  - you have to config the uri of the configuration server, if it ever changes you will need to change this uri in every app that uses it 
 - Discovery First
   - on bootstrap the client connects to a discovery server
   - looks up the config server using a name and loads required properties from it
@@ -673,7 +673,7 @@ Micrometer is a new product owned by Pivotal that uses Sleuth
 - information can be reported to Zipkin via webservices over HTTP
   - optionally metrics can be provided via *Kafka* or *Rabbit* (plus others)
 - Zipkin is a Spring MVC project
-  - recommended to use a binary distribution of Docker image
+  - recommended to use a binary distribution or Docker image
   - building your own is not supported
 - Zipkin uses an in-memory database during development
   - *Cassandra* or *Elasticsearch* should be used for production

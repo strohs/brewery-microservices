@@ -1,5 +1,5 @@
-# This is the main docker compose file to be used for starting the brewery microservices
-# It will start a local docker bridge network and launch 10 containers
+# This is the main docker compose file to be used for starting the brewery microservices on the local machine
+# It will start a local docker bridge network and launch 10 containers.
 #
 #
 version: '3.8'
@@ -17,7 +17,7 @@ services:
       - brewery
 
   artemis:
-    image: strohs/artemis-temurin11:2.24.0
+    image: apache/activemq-artemis:latest-alpine
     ports:
       - "61616:61616"
       - "8161:8161"

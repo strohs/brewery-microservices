@@ -1,5 +1,5 @@
 Notes for running MySQL with DOCKER
-=============================
+=======================================
 * mysql hub page is [here](https://hub.docker.com/_/mysql)
 
 - most basic start
